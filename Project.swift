@@ -387,6 +387,8 @@ func targets() -> [Target] {
                 .target(name: "TuistLoader"),
                 .target(name: "TuistSupport"),
                 .target(name: "TuistScaffold"),
+                // TODO: Delete this
+                .target(name: "TuistDependencies"),
             ],
             testDependencies: [
                 .target(name: "ProjectDescription"),
