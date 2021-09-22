@@ -9,7 +9,7 @@ import TuistSupport
 /// Fields not needed by tuist are commented out and not decoded at all.
 public struct PackageInfo: Hashable {
     /// The products declared in the manifest.
-    let products: [Product]
+    public let products: [Product]
 
     /// The targets declared in the manifest.
     let targets: [Target]
@@ -87,10 +87,10 @@ extension PackageInfo {
 extension PackageInfo {
     public struct Product: Decodable, Hashable {
         /// The name of the product.
-        let name: String
+        public let name: String
 
         /// The type of product to create.
-        let type: Product.ProductType
+        public let type: Product.ProductType
 
         /// The list of targets to combine to form the product.
         ///
@@ -101,9 +101,9 @@ extension PackageInfo {
 }
 
 extension PackageInfo.Product {
-    enum ProductType: Hashable {
+    public enum ProductType: Hashable {
         /// The type of library.
-        enum LibraryType: String, Codable {
+        public enum LibraryType: String, Codable {
             /// Static library.
             case `static`
 
@@ -328,7 +328,7 @@ extension PackageInfo.Product.ProductType: Decodable {
         case library, executable, plugin, test
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         guard let key = values.allKeys.first(where: values.contains) else {
             throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Did not find a matching key"))

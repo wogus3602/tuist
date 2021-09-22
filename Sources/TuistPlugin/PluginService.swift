@@ -101,6 +101,7 @@ public final class PluginService: PluginServicing {
             case let .gitWithTag(url, tag):
 //                let packageInfo = try
                 // TODO: Create new type of cache directory for .tasks
+                // TODO: This directory should also install the plugin only to the directory of the project -> otherwise, the tuist plugin executables could conflict
                 let tasksDirectory = cacheDirectories.cacheDirectory(for: .plugins)
                     .appending(component: "Tasks")
                 try FileHandler.shared.createFolder(tasksDirectory)
@@ -109,15 +110,10 @@ public final class PluginService: PluginServicing {
                 try System.shared.run("unzip", "-o", tasksZip.pathString, "-d", tasksDirectory.pathString)
 //                return try fetchGitPlugin(at: url, with: id, cacheDirectory: cacheDirectories.cacheDirectory(for: .plugins))
             case .local, .gitWithSha:
-                // TODO: Build
+                // TODO: Build and then add to a local path?
                 return
             }
         }
-        let tasks = zip(
-            (remotePluginManifests).map(\.name),
-            remotePluginPaths
-                .map { $0.appending(component: Constants.tasksDirectoryName) }
-        )
         
         return Plugins(
             projectDescriptionHelpers: localProjectDescriptionHelperPlugins + remoteProjectDescriptionHelperPlugins,

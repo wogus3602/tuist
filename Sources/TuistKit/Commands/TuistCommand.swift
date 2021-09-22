@@ -32,6 +32,7 @@ public struct TuistCommand: ParsableCommand {
                 TestCommand.self,
                 UpCommand.self,
                 VersionCommand.self,
+                PluginsCommand.self,
             ]
         )
     }

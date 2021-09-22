@@ -9,4 +9,8 @@ struct PluginsArchiveCommannd: ParsableCommand {
             abstract: "Archives plugins and saves the artifacts into `build` directory."
         )
     }
+    
+    func run() throws {
+        try PluginsArchiveService().run()
+    }
 }
