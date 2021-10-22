@@ -103,6 +103,7 @@ public final class CarthageInteractor: CarthageInteracting {
         } else {
             try carthageController.bootstrap(
                 at: pathsProvider.dependenciesDirectory,
+                noUseBinaries: dependencies.noUseBinaries,
                 platforms: platforms,
                 printOutput: true
             )

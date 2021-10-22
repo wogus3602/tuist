@@ -4,14 +4,17 @@ import Foundation
 public struct CarthageDependencies: Equatable {
     /// List of dependencies that can be installed using Carthage.
     public let dependencies: [Dependency]
+    public let noUseBinaries: Bool
 
     /// Initializes a new `CarthageDependencies` instance.
     /// - Parameters:
     ///   - dependencies: List of dependencies that can be installed using Carthage.
     public init(
-        _ dependencies: [Dependency]
+        _ dependencies: [Dependency],
+        noUseBinaries: Bool
     ) {
         self.dependencies = dependencies
+        self.noUseBinaries = noUseBinaries
     }
 
     /// Returns `Cartfile` representation.
