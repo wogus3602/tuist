@@ -97,13 +97,14 @@ public final class CarthageInteractor: CarthageInteracting {
         if shouldUpdate {
             try carthageController.update(
                 at: pathsProvider.dependenciesDirectory,
+                options: dependencies.options,
                 platforms: platforms,
                 printOutput: true
             )
         } else {
             try carthageController.bootstrap(
                 at: pathsProvider.dependenciesDirectory,
-                noUseBinaries: dependencies.noUseBinaries,
+                options: dependencies.options,
                 platforms: platforms,
                 printOutput: true
             )

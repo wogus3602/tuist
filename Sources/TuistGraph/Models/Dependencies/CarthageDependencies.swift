@@ -4,17 +4,17 @@ import Foundation
 public struct CarthageDependencies: Equatable {
     /// List of dependencies that can be installed using Carthage.
     public let dependencies: [Dependency]
-    public let noUseBinaries: Bool
+    public let options: [Options]
 
     /// Initializes a new `CarthageDependencies` instance.
     /// - Parameters:
     ///   - dependencies: List of dependencies that can be installed using Carthage.
     public init(
         _ dependencies: [Dependency],
-        noUseBinaries: Bool
+        options: [Options]
     ) {
         self.dependencies = dependencies
-        self.noUseBinaries = noUseBinaries
+        self.options = options
     }
 
     /// Returns `Cartfile` representation.
@@ -72,5 +72,15 @@ public extension CarthageDependencies {
                 return #""\#(revision)""#
             }
         }
+    }
+}
+
+public extension CarthageDependencies {
+    enum Options: String, Codable, Equatable {
+        case useXCFrameworks = "--use-xcframeworks"
+        case noUseBinaries = "--no-use-binaries"
+        case useNetRC = "--use-netrc"
+        case cacheBuilds = "--cache-builds"
+        case newResolver = "--new-resolver"
     }
 }

@@ -61,14 +61,14 @@ public protocol CarthageControlling {
     ///   - path: Directory where project's dependencies will be installed.
     ///   - platforms: The platforms to build for.
     ///   - printOutput: When true it prints the Carthage's ouput.
-    func bootstrap(at path: AbsolutePath, noUseBinaries: Bool, platforms: Set<TuistGraph.Platform>, printOutput: Bool) throws
+    func bootstrap(at path: AbsolutePath, options: [CarthageDependencies.Options], platforms: Set<TuistGraph.Platform>, printOutput: Bool) throws
 
     /// Updates and rebuilds the project's dependencies
     /// - Parameters:
     ///   - path: Directory where project's dependencies will be installed.
     ///   - platforms: The platforms to build for.
     ///   - printOutput: When true it prints the Carthage's ouput.
-    func update(at path: AbsolutePath, platforms: Set<TuistGraph.Platform>, printOutput: Bool) throws
+    func update(at path: AbsolutePath, options: [CarthageDependencies.Options], platforms: Set<TuistGraph.Platform>, printOutput: Bool) throws
 }
 
 // MARK: - Carthage Controller
@@ -108,24 +108,24 @@ public final class CarthageController: CarthageControlling {
         return version
     }
 
-    public func bootstrap(at path: AbsolutePath, noUseBinaries: Bool, platforms: Set<TuistGraph.Platform>, printOutput: Bool) throws {
+    public func bootstrap(at path: AbsolutePath, options: [CarthageDependencies.Options], platforms: Set<TuistGraph.Platform>, printOutput: Bool) throws {
         guard try isXCFrameworksProductionSupported() else {
             throw CarthageControllerError.xcframeworksProductionNotSupported(installedVersion: try carthageVersion())
         }
 
-        let command = buildCarthageCommand(path: path, noUseBinaries: noUseBinaries, platforms: platforms, subcommand: "bootstrap")
+        let command = buildCarthageCommand(path: path, options: options, platforms: platforms, subcommand: "bootstrap")
 
         printOutput ?
             try System.shared.runAndPrint(command) :
             try System.shared.run(command)
     }
 
-    public func update(at path: AbsolutePath, platforms: Set<TuistGraph.Platform>, printOutput: Bool) throws {
+    public func update(at path: AbsolutePath, options: [CarthageDependencies.Options], platforms: Set<TuistGraph.Platform>, printOutput: Bool) throws {
         guard try isXCFrameworksProductionSupported() else {
             throw CarthageControllerError.xcframeworksProductionNotSupported(installedVersion: try carthageVersion())
         }
 
-        let command = buildCarthageCommand(path: path, noUseBinaries: false, platforms: platforms, subcommand: "update")
+        let command = buildCarthageCommand(path: path, options: options, platforms: platforms, subcommand: "update")
 
         printOutput ?
             try System.shared.runAndPrint(command) :
@@ -136,7 +136,7 @@ public final class CarthageController: CarthageControlling {
 
     private func buildCarthageCommand(
         path: AbsolutePath,
-        noUseBinaries: Bool,
+        options: [CarthageDependencies.Options],
         platforms: Set<TuistGraph.Platform>,
         subcommand: String
     ) -> [String] {
@@ -157,16 +157,8 @@ public final class CarthageController: CarthageControlling {
             ]
         }
 
-        let binariesCommand: [String] = noUseBinaries ? ["--no-use-binaries"] : []
-
-        commandComponents += [
-            "--use-xcframeworks",
-            "--use-netrc",
-            "--cache-builds",
-            "--new-resolver",
-        ]
-
-        commandComponents += binariesCommand
+        let optionCommandComponents = options.map(\.rawValue)
+        commandComponents += optionCommandComponents
 
         return commandComponents
     }

@@ -4,13 +4,13 @@ import Foundation
 public struct CarthageDependencies: Codable, Equatable {
     /// List of dependencies that will be installed using Carthage.
     public let dependencies: [Dependency]
-    public let noUseBinaries: Bool
+    public let options: [Options]
 
     /// Creates `CarthageDependencies` instance.
     /// - Parameter dependencies: List of dependencies that can be installed using Carthage.
-    public init(_ dependencies: [Dependency], noUseBinaries: Bool) {
+    public init(_ dependencies: [Dependency], options: [Options]) {
         self.dependencies = dependencies
-        self.noUseBinaries = noUseBinaries
+        self.options = options
     }
 }
 
@@ -19,7 +19,7 @@ public struct CarthageDependencies: Codable, Equatable {
 extension CarthageDependencies: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: Dependency...) {
         dependencies = elements
-        noUseBinaries = false
+        options = [.useXCFrameworks, .noUseBinaries, .useNetRC, .cacheBuilds, .newResolver]
     }
 }
 
@@ -43,6 +43,15 @@ public extension CarthageDependencies {
         case atLeast(Version)
         case branch(String)
         case revision(String)
+    }
+
+    /// Specifies options to be used in Carthage comands
+    enum Options: Codable, Equatable {
+        case useXCFrameworks
+        case noUseBinaries
+        case useNetRC
+        case cacheBuilds
+        case newResolver
     }
 }
 
