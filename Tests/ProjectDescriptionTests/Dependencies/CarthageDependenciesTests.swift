@@ -55,4 +55,24 @@ final class CarthageDependenciesTests: XCTestCase {
         let subject: CarthageDependencies.Requirement = .revision("revision")
         XCTAssertCodable(subject)
     }
+    
+    // MARK: - Carthage Option tests
+    
+    func test_carthage_default_options() throws {
+        let subject = CarthageDependencies([])
+        XCTAssertEqual(subject.options, .default)
+    }
+    
+    func test_carthage_default_options_array_literal() throws {
+        let subject: CarthageDependencies = []
+        XCTAssertEqual(subject.options, .default)
+    }
+    
+    func test_carthage_custom_options() throws {
+        let subject = CarthageDependencies(
+            [],
+            options: [.newResolver, .useNetRC]
+        )
+        XCTAssertEqual(subject.options, [.newResolver, .useNetRC])
+    }
 }

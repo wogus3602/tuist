@@ -37,10 +37,13 @@ final class DependenciesModelLoaderTests: TuistUnitTestCase {
 
         manifestLoader.loadDependenciesStub = { _ in
             Dependencies(
-                carthage: [
-                    .github(path: "Dependency1", requirement: .exact("1.1.1")),
-                    .git(path: "Dependency1", requirement: .exact("2.3.4")),
-                ],
+                carthage: .init(
+                    [
+                        .github(path: "Dependency1", requirement: .exact("1.1.1")),
+                        .git(path: "Dependency1", requirement: .exact("2.3.4")),
+                    ],
+                    options: [.useNetRC, .newResolver]
+                ),
                 swiftPackageManager: .init(
                     [
                         .local(path: Path(localSwiftPackagePath.pathString)),
@@ -62,10 +65,7 @@ final class DependenciesModelLoaderTests: TuistUnitTestCase {
                     .git(path: "Dependency1", requirement: .exact("2.3.4")),
                 ],
                 options: [
-                    .useXCFrameworks,
-                    .noUseBinaries,
                     .useNetRC,
-                    .cacheBuilds,
                     .newResolver,
                 ]
             ),

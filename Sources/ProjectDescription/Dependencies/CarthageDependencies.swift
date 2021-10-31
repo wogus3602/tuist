@@ -47,10 +47,15 @@ public extension CarthageDependencies {
 
     /// Specifies options to be used in Carthage comands
     enum Options: Codable, Equatable {
+        /// Create xcframework bundles instead of one framework per platform (requires Xcode 12+)
         case useXCFrameworks
+        /// Don't use downloaded binaries when possible
         case noUseBinaries
+        /// Use authentication credentials from ~/.netrc file when downloading binary only frameworks
         case useNetRC
+        /// Use cached builds when possible
         case cacheBuilds
+        /// Use the new resolver codeline when calculating dependencies
         case newResolver
     }
 }
