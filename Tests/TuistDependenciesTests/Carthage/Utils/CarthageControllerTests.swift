@@ -81,7 +81,7 @@ final class CarthageControllerTests: TuistUnitTestCase {
                     .noUseBinaries,
                     .useNetRC,
                     .cacheBuilds,
-                    .newResolver
+                    .newResolver,
                 ],
                 platforms: [],
                 printOutput: false
@@ -117,7 +117,7 @@ final class CarthageControllerTests: TuistUnitTestCase {
                     .noUseBinaries,
                     .useNetRC,
                     .cacheBuilds,
-                    .newResolver
+                    .newResolver,
                 ],
                 platforms: [.iOS],
                 printOutput: false
@@ -168,7 +168,7 @@ final class CarthageControllerTests: TuistUnitTestCase {
             "--use-netrc",
             "--use-xcframeworks",
         ])
-        
+
         // When / Then
         XCTAssertNoThrow(
             try subject.update(
@@ -178,7 +178,7 @@ final class CarthageControllerTests: TuistUnitTestCase {
                     .noUseBinaries,
                     .useNetRC,
                     .cacheBuilds,
-                    .newResolver
+                    .newResolver,
                 ],
                 platforms: [],
                 printOutput: false
@@ -214,7 +214,7 @@ final class CarthageControllerTests: TuistUnitTestCase {
                     .noUseBinaries,
                     .useNetRC,
                     .cacheBuilds,
-                    .newResolver
+                    .newResolver,
                 ],
                 platforms: [.iOS],
                 printOutput: false

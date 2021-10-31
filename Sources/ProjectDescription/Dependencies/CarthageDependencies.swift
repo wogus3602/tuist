@@ -178,6 +178,6 @@ public extension Set where Element == CarthageDependencies.Options {
         .noUseBinaries,
         .useNetRC,
         .cacheBuilds,
-        .newResolver
+        .newResolver,
     ]
 }

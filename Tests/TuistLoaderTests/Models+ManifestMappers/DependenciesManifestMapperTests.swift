@@ -47,7 +47,7 @@ final class DependenciesManifestMapperTests: TuistUnitTestCase {
                     .noUseBinaries,
                     .useNetRC,
                     .cacheBuilds,
-                    .newResolver
+                    .newResolver,
                 ]
             ),
             swiftPackageManager: .init(

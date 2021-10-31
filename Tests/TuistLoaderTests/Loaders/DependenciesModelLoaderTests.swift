@@ -66,7 +66,7 @@ final class DependenciesModelLoaderTests: TuistUnitTestCase {
                     .noUseBinaries,
                     .useNetRC,
                     .cacheBuilds,
-                    .newResolver
+                    .newResolver,
                 ]
             ),
             swiftPackageManager: .init(
