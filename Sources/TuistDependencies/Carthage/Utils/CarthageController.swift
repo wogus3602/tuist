@@ -157,7 +157,9 @@ public final class CarthageController: CarthageControlling {
             ]
         }
 
-        let optionCommandComponents = options.map(\.rawValue)
+        let optionCommandComponents = options
+            .map(\.rawValue)
+            .sorted() // allows for predictable tests
         commandComponents += optionCommandComponents
 
         return commandComponents

@@ -42,7 +42,13 @@ final class DependenciesManifestMapperTests: TuistUnitTestCase {
                     .git(path: "Dependency.git", requirement: .branch("BranchName")),
                     .binary(path: "DependencyXYZ", requirement: .atLeast("2.3.1")),
                 ],
-                options: []
+                options: [
+                    .useXCFrameworks,
+                    .noUseBinaries,
+                    .useNetRC,
+                    .cacheBuilds,
+                    .newResolver
+                ]
             ),
             swiftPackageManager: .init(
                 [

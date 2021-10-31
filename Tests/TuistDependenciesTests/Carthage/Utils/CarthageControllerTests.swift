@@ -65,15 +65,28 @@ final class CarthageControllerTests: TuistUnitTestCase {
             "bootstrap",
             "--project-directory",
             path.pathString,
-            "--use-xcframeworks",
-            "--no-use-binaries",
-            "--use-netrc",
             "--cache-builds",
             "--new-resolver",
+            "--no-use-binaries",
+            "--use-netrc",
+            "--use-xcframeworks",
         ])
 
         // When / Then
-        XCTAssertNoThrow(try subject.bootstrap(at: path, options: [], platforms: [], printOutput: false))
+        XCTAssertNoThrow(
+            try subject.bootstrap(
+                at: path,
+                options: [
+                    .useXCFrameworks,
+                    .noUseBinaries,
+                    .useNetRC,
+                    .cacheBuilds,
+                    .newResolver
+                ],
+                platforms: [],
+                printOutput: false
+            )
+        )
     }
 
     func test_bootstrap_with_platforms() throws {
@@ -88,15 +101,28 @@ final class CarthageControllerTests: TuistUnitTestCase {
             path.pathString,
             "--platform",
             "iOS",
-            "--use-xcframeworks",
-            "--no-use-binaries",
-            "--use-netrc",
             "--cache-builds",
             "--new-resolver",
+            "--no-use-binaries",
+            "--use-netrc",
+            "--use-xcframeworks",
         ])
 
         // When / Then
-        XCTAssertNoThrow(try subject.bootstrap(at: path, options: [], platforms: [.iOS], printOutput: false))
+        XCTAssertNoThrow(
+            try subject.bootstrap(
+                at: path,
+                options: [
+                    .useXCFrameworks,
+                    .noUseBinaries,
+                    .useNetRC,
+                    .cacheBuilds,
+                    .newResolver
+                ],
+                platforms: [.iOS],
+                printOutput: false
+            )
+        )
     }
 
     func test_bootstrap_with_platforms_throws_when_xcframeworkdProductionUnsupported() throws {
@@ -136,15 +162,28 @@ final class CarthageControllerTests: TuistUnitTestCase {
             "update",
             "--project-directory",
             path.pathString,
-            "--use-xcframeworks",
-            "--no-use-binaries",
-            "--use-netrc",
             "--cache-builds",
             "--new-resolver",
+            "--no-use-binaries",
+            "--use-netrc",
+            "--use-xcframeworks",
         ])
-
+        
         // When / Then
-        XCTAssertNoThrow(try subject.update(at: path, options: [], platforms: [], printOutput: false))
+        XCTAssertNoThrow(
+            try subject.update(
+                at: path,
+                options: [
+                    .useXCFrameworks,
+                    .noUseBinaries,
+                    .useNetRC,
+                    .cacheBuilds,
+                    .newResolver
+                ],
+                platforms: [],
+                printOutput: false
+            )
+        )
     }
 
     func test_update_with_platforms() throws {
@@ -159,15 +198,28 @@ final class CarthageControllerTests: TuistUnitTestCase {
             path.pathString,
             "--platform",
             "iOS",
-            "--use-xcframeworks",
-            "--no-use-binaries",
-            "--use-netrc",
             "--cache-builds",
             "--new-resolver",
+            "--no-use-binaries",
+            "--use-netrc",
+            "--use-xcframeworks",
         ])
 
         // When / Then
-        XCTAssertNoThrow(try subject.update(at: path, options: [], platforms: [.iOS], printOutput: false))
+        XCTAssertNoThrow(
+            try subject.update(
+                at: path,
+                options: [
+                    .useXCFrameworks,
+                    .noUseBinaries,
+                    .useNetRC,
+                    .cacheBuilds,
+                    .newResolver
+                ],
+                platforms: [.iOS],
+                printOutput: false
+            )
+        )
     }
 
     func test_update_with_platforms_throws_when_xcframeworkdProductionUnsupported() throws {
