@@ -54,7 +54,8 @@ final class DependenciesControllerTests: TuistUnitTestCase {
             [
                 .github(path: "Moya", requirement: .exact("1.1.1")),
                 .github(path: "RxSwift", requirement: .exact("2.0.0")),
-            ]
+            ],
+            options: []
         )
         let dependencies = Dependencies(
             carthage: carthageDependencies,
@@ -138,11 +139,12 @@ final class DependenciesControllerTests: TuistUnitTestCase {
             .appending(component: Constants.DependenciesDirectory.name)
 
         let platforms: Set<TuistGraph.Platform> = [.iOS]
-        let carthageDependencies = CarthageDependencies(
+        let carthageDependencies = TuistGraph.CarthageDependencies(
             [
                 .github(path: "Moya", requirement: .exact("1.1.1")),
                 .github(path: "RxSwift", requirement: .exact("2.0.0")),
-            ]
+            ],
+            options: []
         )
         let swiftPackageManagerDependencies = SwiftPackageManagerDependencies(
             [
@@ -206,7 +208,8 @@ final class DependenciesControllerTests: TuistUnitTestCase {
             carthage: .init(
                 [
                     .github(path: "Moya", requirement: .exact("1.1.1")),
-                ]
+                ],
+                options: []
             ),
             swiftPackageManager: .init(
                 [
@@ -255,7 +258,7 @@ final class DependenciesControllerTests: TuistUnitTestCase {
         let rootPath = try temporaryPath()
 
         let dependencies = TuistGraph.Dependencies(
-            carthage: .init([]),
+            carthage: .init([], options: []),
             swiftPackageManager: .init([], productTypes: [:]),
             platforms: []
         )
@@ -272,7 +275,7 @@ final class DependenciesControllerTests: TuistUnitTestCase {
         let rootPath = try temporaryPath()
 
         let dependencies = TuistGraph.Dependencies(
-            carthage: .init([]),
+            carthage: .init([], options: []),
             swiftPackageManager: .init([], productTypes: [:]),
             platforms: [.iOS]
         )
@@ -299,11 +302,12 @@ final class DependenciesControllerTests: TuistUnitTestCase {
             .appending(component: Constants.DependenciesDirectory.name)
 
         let platforms: Set<TuistGraph.Platform> = [.iOS]
-        let carthageDependencies = CarthageDependencies(
+        let carthageDependencies = TuistGraph.CarthageDependencies(
             [
                 .github(path: "Moya", requirement: .exact("1.1.1")),
                 .github(path: "RxSwift", requirement: .exact("2.0.0")),
-            ]
+            ],
+            options: []
         )
         let dependencies = Dependencies(
             carthage: carthageDependencies,
@@ -384,11 +388,12 @@ final class DependenciesControllerTests: TuistUnitTestCase {
             .appending(component: Constants.DependenciesDirectory.name)
 
         let platforms: Set<TuistGraph.Platform> = [.iOS]
-        let carthageDependencies = CarthageDependencies(
+        let carthageDependencies = TuistGraph.CarthageDependencies(
             [
                 .github(path: "Moya", requirement: .exact("1.1.1")),
                 .github(path: "RxSwift", requirement: .exact("2.0.0")),
-            ]
+            ],
+            options: []
         )
         let swiftPackageManagerDependencies = SwiftPackageManagerDependencies(
             [
@@ -439,7 +444,7 @@ final class DependenciesControllerTests: TuistUnitTestCase {
         let rootPath = try temporaryPath()
 
         let dependencies = TuistGraph.Dependencies(
-            carthage: .init([]),
+            carthage: .init([], options: []),
             swiftPackageManager: .init([], productTypes: [:]),
             platforms: []
         )
@@ -456,7 +461,7 @@ final class DependenciesControllerTests: TuistUnitTestCase {
         let rootPath = try temporaryPath()
 
         let dependencies = TuistGraph.Dependencies(
-            carthage: .init([]),
+            carthage: .init([], options: []),
             swiftPackageManager: .init([], productTypes: [:]),
             platforms: [.iOS]
         )

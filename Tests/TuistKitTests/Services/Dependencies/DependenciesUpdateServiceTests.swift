@@ -50,7 +50,8 @@ final class DependenciesUpdateServiceTests: TuistUnitTestCase {
             carthage: .init(
                 [
                     .git(path: "Dependency1", requirement: .exact("1.1.1")),
-                ]
+                ],
+                options: []
             ),
             swiftPackageManager: .init(
                 [

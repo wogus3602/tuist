@@ -4,11 +4,11 @@ import Foundation
 public struct CarthageDependencies: Codable, Equatable {
     /// List of dependencies that will be installed using Carthage.
     public let dependencies: [Dependency]
-    public let options: [Options]
+    public let options: Set<Options>
 
     /// Creates `CarthageDependencies` instance.
     /// - Parameter dependencies: List of dependencies that can be installed using Carthage.
-    public init(_ dependencies: [Dependency], options: [Options]) {
+    public init(_ dependencies: [Dependency], options: Set<Options> = .default) {
         self.dependencies = dependencies
         self.options = options
     }
@@ -19,7 +19,7 @@ public struct CarthageDependencies: Codable, Equatable {
 extension CarthageDependencies: ExpressibleByArrayLiteral {
     public init(arrayLiteral elements: Dependency...) {
         dependencies = elements
-        options = [.useXCFrameworks, .noUseBinaries, .useNetRC, .cacheBuilds, .newResolver]
+        options = .default
     }
 }
 
@@ -168,4 +168,16 @@ extension CarthageDependencies.Requirement {
             try container.encode(revision, forKey: .revision)
         }
     }
+}
+
+// MARK: - Set<CarthageDependencies.Options>
+
+public extension Set where Element == CarthageDependencies.Options {
+    static let `default`: Set<CarthageDependencies.Options> = [
+        .useXCFrameworks,
+        .noUseBinaries,
+        .useNetRC,
+        .cacheBuilds,
+        .newResolver
+    ]
 }

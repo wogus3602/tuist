@@ -4,14 +4,14 @@ import Foundation
 public struct CarthageDependencies: Equatable {
     /// List of dependencies that can be installed using Carthage.
     public let dependencies: [Dependency]
-    public let options: [Options]
+    public let options: Set<Options>
 
     /// Initializes a new `CarthageDependencies` instance.
     /// - Parameters:
     ///   - dependencies: List of dependencies that can be installed using Carthage.
     public init(
         _ dependencies: [Dependency],
-        options: [Options]
+        options: Set<Options>
     ) {
         self.dependencies = dependencies
         self.options = options

@@ -50,13 +50,14 @@ final class CarthageInteractorTests: TuistUnitTestCase {
         let stubbedDependencies = CarthageDependencies(
             [
                 .github(path: "Moya", requirement: .exact("1.1.1")),
-            ]
+            ],
+            options: []
         )
 
-        carthageController.bootstrapStub = { arg0, arg1, arg2 in
+        carthageController.bootstrapStub = { arg0, arg1, arg2, arg3 in
             XCTAssertEqual(arg0, dependenciesDirectory)
-            XCTAssertEqual(arg1, platforms)
-            XCTAssertTrue(arg2)
+            XCTAssertEqual(arg2, platforms)
+            XCTAssertTrue(arg3)
 
             try self.simulateCarthageOutput(at: arg0)
         }
@@ -157,13 +158,14 @@ final class CarthageInteractorTests: TuistUnitTestCase {
         let stubbedDependencies = CarthageDependencies(
             [
                 .github(path: "Moya", requirement: .exact("1.1.1")),
-            ]
+            ],
+            options: []
         )
 
-        carthageController.updateStub = { arg0, arg1, arg2 in
+        carthageController.updateStub = { arg0, arg1, arg2, arg3 in
             XCTAssertEqual(arg0, dependenciesDirectory)
-            XCTAssertEqual(arg1, platforms)
-            XCTAssertTrue(arg2)
+            XCTAssertEqual(arg2, platforms)
+            XCTAssertTrue(arg3)
 
             try self.simulateCarthageOutput(at: arg0)
         }
@@ -256,7 +258,8 @@ final class CarthageInteractorTests: TuistUnitTestCase {
         let dependencies = CarthageDependencies(
             [
                 .github(path: "Moya", requirement: .exact("1.1.1")),
-            ]
+            ],
+            options: []
         )
         let platforms: Set<Platform> = [.iOS]
 

@@ -10,7 +10,7 @@ extension TuistGraph.CarthageDependencies {
     static func from(manifest: ProjectDescription.CarthageDependencies) throws -> Self {
         let dependencies = manifest.dependencies.map { TuistGraph.CarthageDependencies.Dependency.from(manifest: $0) }
         let options = manifest.options.map { TuistGraph.CarthageDependencies.Options.from(manifest: $0) }
-        return .init(dependencies, options: options)
+        return .init(dependencies, options: Set(options))
     }
 }
 
