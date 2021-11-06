@@ -330,6 +330,8 @@ final class WorkspaceStructureGeneratorTests: XCTestCase {
 
         func copy(from _: AbsolutePath, to _: AbsolutePath) throws {}
 
+        func copyReplacing(from _: AbsolutePath, to _: AbsolutePath) throws {}
+
         func readTextFile(_: AbsolutePath) throws -> String {
             ""
         }

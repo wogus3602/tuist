@@ -47,10 +47,10 @@ public protocol FileHandling: AnyObject {
     func exists(_ path: AbsolutePath) -> Bool
     func move(from: AbsolutePath, to: AbsolutePath) throws
     func copy(from: AbsolutePath, to: AbsolutePath) throws
+    func copyReplacing(from: AbsolutePath, to: AbsolutePath) throws
     func readFile(_ at: AbsolutePath) throws -> Data
     func readTextFile(_ at: AbsolutePath) throws -> String
     func readPlistFile<T: Decodable>(_ at: AbsolutePath) throws -> T
-    /// Determine temporary directory either default for user or specified by ENV variable
     func determineTemporaryDirectory() throws -> AbsolutePath
     func temporaryDirectory() throws -> AbsolutePath
     func inTemporaryDirectory(_ closure: (AbsolutePath) throws -> Void) throws
@@ -153,6 +153,15 @@ public class FileHandler: FileHandling {
     public func copy(from: AbsolutePath, to: AbsolutePath) throws {
         logger.debug("Copying file from \(from) to \(to)")
         try fileManager.copyItem(atPath: from.pathString, toPath: to.pathString)
+    }
+
+    public func copyReplacing(from: AbsolutePath, to: AbsolutePath) throws {
+        if exists(to) {
+            try replace(to, with: from)
+        } else {
+            try createFolder(to.removingLastComponent())
+            try copy(from: from, to: to)
+        }
     }
 
     public func move(from: AbsolutePath, to: AbsolutePath) throws {

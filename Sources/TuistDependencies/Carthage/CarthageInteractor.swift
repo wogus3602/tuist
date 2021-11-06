@@ -135,7 +135,7 @@ public final class CarthageInteractor: CarthageInteracting {
     private func loadDependencies(pathsProvider: CarthagePathsProvider, dependencies: TuistGraph.CarthageDependencies) throws {
         // copy `Cartfile.resolved` directory from previous run if exist
         if FileHandler.shared.exists(pathsProvider.destinationCartfileResolvedPath) {
-            try copy(
+            try FileHandler.shared.copyReplacing(
                 from: pathsProvider.destinationCartfileResolvedPath,
                 to: pathsProvider.temporaryCartfileResolvedPath
             )
@@ -160,7 +160,7 @@ public final class CarthageInteractor: CarthageInteracting {
             throw CarthageInteractorError.buildDirectoryNotFound
         }
 
-        try copy(
+        try FileHandler.shared.copyReplacing(
             from: pathsProvider.temporaryCartfileResolvedPath,
             to: pathsProvider.destinationCartfileResolvedPath
         )
@@ -168,17 +168,6 @@ public final class CarthageInteractor: CarthageInteracting {
         // remove temporary files
         try? FileHandler.shared.delete(pathsProvider.temporaryCartfilePath)
         try? FileHandler.shared.delete(pathsProvider.temporaryCartfileResolvedPath)
-    }
-
-    // MARK: - Helpers
-
-    private func copy(from fromPath: AbsolutePath, to toPath: AbsolutePath) throws {
-        if FileHandler.shared.exists(toPath) {
-            try FileHandler.shared.replace(toPath, with: fromPath)
-        } else {
-            try FileHandler.shared.createFolder(toPath.removingLastComponent())
-            try FileHandler.shared.copy(from: fromPath, to: toPath)
-        }
     }
 }
 

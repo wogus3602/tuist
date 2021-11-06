@@ -86,7 +86,7 @@ public final class SwiftPackageManagerInteractor: SwiftPackageManagerInteracting
 
         let pathsProvider = SwiftPackageManagerPathsProvider(dependenciesDirectory: dependenciesDirectory)
 
-        try loadDependencies(pathsProvider: pathsProvider, dependencies: dependencies, swiftToolsVersion: swiftToolsVersion)
+        try generatePackageManifestAndResolved(pathsProvider: pathsProvider, dependencies: dependencies, swiftToolsVersion: swiftToolsVersion)
 
         if shouldUpdate {
             try swiftPackageManagerController.update(at: pathsProvider.destinationSwiftPackageManagerDirectory, printOutput: true)
@@ -94,7 +94,7 @@ public final class SwiftPackageManagerInteractor: SwiftPackageManagerInteracting
             try swiftPackageManagerController.resolve(at: pathsProvider.destinationSwiftPackageManagerDirectory, printOutput: true)
         }
 
-        try saveDependencies(
+        try savePackageResolved(
             pathsProvider: pathsProvider,
             hasRemoteDependencies: dependencies.packages.contains(where: \.isRemote)
         )
@@ -120,14 +120,14 @@ public final class SwiftPackageManagerInteractor: SwiftPackageManagerInteracting
     // MARK: - Installation
 
     /// Loads lockfile and dependencies into working directory if they had been saved before.
-    private func loadDependencies(
+    private func generatePackageManifestAndResolved(
         pathsProvider: SwiftPackageManagerPathsProvider,
         dependencies: TuistGraph.SwiftPackageManagerDependencies,
         swiftToolsVersion: TSCUtility.Version?
     ) throws {
         // copy `Package.resolved` directory from lockfiles folder
         if fileHandler.exists(pathsProvider.destinationPackageResolvedPath) {
-            try copy(
+            try fileHandler.copyReplacing(
                 from: pathsProvider.destinationPackageResolvedPath,
                 to: pathsProvider.temporaryPackageResolvedPath
             )
@@ -150,7 +150,7 @@ public final class SwiftPackageManagerInteractor: SwiftPackageManagerInteracting
     }
 
     /// Saves lockfile resolved dependencies in `Tuist/Dependencies` directory.
-    private func saveDependencies(pathsProvider: SwiftPackageManagerPathsProvider, hasRemoteDependencies: Bool) throws {
+    private func savePackageResolved(pathsProvider: SwiftPackageManagerPathsProvider, hasRemoteDependencies: Bool) throws {
         guard !hasRemoteDependencies || fileHandler.exists(pathsProvider.temporaryPackageResolvedPath) else {
             throw SwiftPackageManagerInteractorError.packageResolvedNotFound
         }
@@ -159,7 +159,7 @@ public final class SwiftPackageManagerInteractor: SwiftPackageManagerInteracting
         }
 
         if fileHandler.exists(pathsProvider.temporaryPackageResolvedPath) {
-            try copy(
+            try fileHandler.copyReplacing(
                 from: pathsProvider.temporaryPackageResolvedPath,
                 to: pathsProvider.destinationPackageResolvedPath
             )
@@ -169,27 +169,24 @@ public final class SwiftPackageManagerInteractor: SwiftPackageManagerInteracting
         try? FileHandler.shared.delete(pathsProvider.temporaryPackageSwiftPath)
         try? FileHandler.shared.delete(pathsProvider.temporaryPackageResolvedPath)
     }
-
-    // MARK: - Helpers
-
-    private func copy(from fromPath: AbsolutePath, to toPath: AbsolutePath) throws {
-        if fileHandler.exists(toPath) {
-            try fileHandler.replace(toPath, with: fromPath)
-        } else {
-            try fileHandler.createFolder(toPath.removingLastComponent())
-            try fileHandler.copy(from: fromPath, to: toPath)
-        }
-    }
 }
 
 // MARK: - Models
 
 private struct SwiftPackageManagerPathsProvider {
+    // Tuist/Dependencies/SwiftPackageManager
     let destinationSwiftPackageManagerDirectory: AbsolutePath
+
+    // Tuist/Dependencies/Lockfiles/Package.resolved
     let destinationPackageResolvedPath: AbsolutePath
+
+    // Tuist/Dependencies/SwiftPackageManager/.build
     let destinationBuildDirectory: AbsolutePath
 
+    // Tuist/Dependencies/SwiftPackageManager/Package.resolved
     let temporaryPackageResolvedPath: AbsolutePath
+
+    // Tuist/Dependencies/SwiftPackageManager/Package.swift
     let temporaryPackageSwiftPath: AbsolutePath
 
     init(dependenciesDirectory: AbsolutePath) {

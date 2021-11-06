@@ -73,7 +73,9 @@ public final class SwiftPackageManagerGraphGenerator: SwiftPackageManagerGraphGe
         let checkoutsFolder = path.appending(component: "checkouts")
         let workspacePath = path.appending(component: "workspace-state.json")
 
-        let workspaceState = try JSONDecoder().decode(SwiftPackageManagerWorkspaceState.self, from: try FileHandler.shared.readFile(workspacePath))
+        let workspaceStateData = try FileHandler.shared.readFile(workspacePath)
+        let workspaceState = try JSONDecoder().decode(SwiftPackageManagerWorkspaceState.self, from: workspaceStateData)
+
         let packageInfos: [(name: String, folder: AbsolutePath, info: PackageInfo)]
         packageInfos = try workspaceState.object.dependencies.map(context: .concurrent) { dependency in
             let name = dependency.packageRef.name
