@@ -422,6 +422,11 @@ final class ProjectEditorMapper: ProjectEditorMapping {
                 // Because of that we need to expose the parent directory too in SWIFT_INCLUDE_PATHS
                 [path.parentDirectory.pathString, path.parentDirectory.parentDirectory.pathString]
             }
+            .map {
+                // We replace any instance of the current user's home directory
+                // with `$HOME` so that the generated project is portable to other machines.
+                $0.replacingOccurrences(of: NSHomeDirectory(), with: "$HOME")
+            }
             .map { "\"\($0)\"" }
         return [
             "FRAMEWORK_SEARCH_PATHS": .array(includePaths),
