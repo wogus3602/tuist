@@ -39,6 +39,13 @@ public struct TuistCommand: ParsableCommand {
         help: "Display subcommands to manage the environment tuist versions."
     )
     var isTuistEnvHelp: Bool = false
+    
+    // This flag is used in `main.swift` and is handled before this command is parsed.
+    // Its presence is useful only for being displayed in help.
+    @Flag(
+        help: "Display additional output."
+    )
+    var verbose: Bool = false
 
     public static func main(_ arguments: [String]? = nil) -> Never {
         let errorHandler = ErrorHandler()
